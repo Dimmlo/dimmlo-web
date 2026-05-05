@@ -1,0 +1,13 @@
+{
+  "name": "dimmlo-client-sites",
+  "version": "1.0.0",
+  "description": "Dimmlo client website generator",
+  "scripts": {
+    "build": "node build.js",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["dimmlo", "static-site"],
+  "author": "Dimmlo",
+  "license": "UNLICENSED",
+  "private": true
+}

@@ -1,0 +1,27 @@
+{
+  "businessName": "DK Electrical Services",
+  "tagline": "Licensed & Insured Electrical Contractors",
+  "description": "Professional electrical services for residential and commercial properties",
+  "phone": "(555) 789-0123",
+  "email": "danny@dkelectrical.com",
+  "address": "456 Industrial Blvd, Brooklyn, NY 11201",
+  "heroImage": "https://via.placeholder.com/1200x400/1F2124/ffffff?text=DK+Electrical",
+  "aboutText": "With over 15 years of experience, DK Electrical Services provides reliable, professional electrical work. From simple repairs to complete rewiring, we've got you covered.",
+  "hours": {
+    "Monday": "8:00 AM - 6:00 PM",
+    "Tuesday": "8:00 AM - 6:00 PM",
+    "Wednesday": "8:00 AM - 6:00 PM",
+    "Thursday": "8:00 AM - 6:00 PM",
+    "Friday": "8:00 AM - 5:00 PM",
+    "Saturday": "Emergency calls only",
+    "Sunday": "Closed"
+  },
+  "colors": {
+    "primary": "#FFB800",
+    "secondary": "#1F2124"
+  },
+  "galleryImages": [],
+  "social": {
+    "facebook": "dkelectricalnyc"
+  }
+}

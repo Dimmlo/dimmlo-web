@@ -1,0 +1,17 @@
+{
+  "name": "dimmlo-scripts",
+  "version": "1.0.0",
+  "description": "Dimmlo automation scripts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "dotenv": "^16.4.7"
+  },
+  "keywords": ["dimmlo", "automation"],
+  "author": "Dimmlo",
+  "license": "UNLICENSED",
+  "private": true
+}

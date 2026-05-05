@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+
+# Build outputs
+client-sites/build/
+dist/
+
+# Vercel
+.vercel
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Temporary files
+tmp/
+temp/
+*.tmp

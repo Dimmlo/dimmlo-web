@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{businessName}}</title>
+    <meta name="description" content="{{description}}">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="business-name">{{businessName}}</h1>
+            <p class="tagline">{{tagline}}</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-image">
+                <img src="{{heroImage}}" alt="{{businessName}}">
+            </div>
+        </section>
+
+        <section class="about">
+            <h2>About Us</h2>
+            <p>{{aboutText}}</p>
+        </section>
+
+        <section class="hours">
+            <h2>Hours</h2>
+            <div class="hours-grid">
+                {{hoursHTML}}
+            </div>
+        </section>
+
+        <section class="contact">
+            <h2>Get in Touch</h2>
+            <div class="contact-info">
+                <p><strong>Phone:</strong> <a href="tel:{{phone}}">{{phone}}</a></p>
+                <p><strong>Address:</strong> {{address}}</p>
+                {{#if email}}
+                <p><strong>Email:</strong> <a href="mailto:{{email}}">{{email}}</a></p>
+                {{/if}}
+            </div>
+        </section>
+
+        <section class="gallery">
+            <h2>Gallery</h2>
+            <div class="gallery-grid" id="gallery">
+                <!-- Dynamically loaded from messages -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{year}} {{businessName}}. Powered by <a href="https://dimmlo.com">Dimmlo</a>.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

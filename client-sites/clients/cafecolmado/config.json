@@ -1,0 +1,28 @@
+{
+  "businessName": "Café Colmado",
+  "tagline": "Authentic Spanish flavors in the heart of NYC",
+  "description": "Traditional Spanish café serving coffee, pastries, and light fare",
+  "phone": "(555) 123-4567",
+  "email": "hello@cafecolmado.com",
+  "address": "123 Main St, New York, NY 10001",
+  "heroImage": "https://via.placeholder.com/1200x400/267D85/ffffff?text=Cafe+Colmado",
+  "aboutText": "We bring the warmth of Spanish café culture to NYC. Fresh pastries daily, expertly crafted coffee, and a welcoming atmosphere.",
+  "hours": {
+    "Monday": "7:00 AM - 7:00 PM",
+    "Tuesday": "7:00 AM - 7:00 PM",
+    "Wednesday": "7:00 AM - 7:00 PM",
+    "Thursday": "7:00 AM - 7:00 PM",
+    "Friday": "7:00 AM - 9:00 PM",
+    "Saturday": "8:00 AM - 9:00 PM",
+    "Sunday": "8:00 AM - 6:00 PM"
+  },
+  "colors": {
+    "primary": "#D4A373",
+    "secondary": "#2C1810"
+  },
+  "galleryImages": [],
+  "social": {
+    "instagram": "@cafecolmado",
+    "facebook": "cafecolmadonyc"
+  }
+}
