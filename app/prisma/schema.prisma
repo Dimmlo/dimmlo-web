@@ -1,0 +1,354 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── SENDING INFRASTRUCTURE ───────────────────────────────────────────────
+
+model SendingDomain {
+  id           String             @id @default(cuid())
+  domain       String             @unique
+  fromEmail    String
+  warmupDay    Int                @default(1)
+  dailyLimit   Int                @default(5)
+  sendsToday   Int                @default(0)
+  totalSent    Int                @default(0)
+  bounceCount  Int                @default(0)
+  spamCount    Int                @default(0)
+  isPaused     Boolean            @default(false)
+  healthStatus String             @default("green")
+  createdAt    DateTime           @default(now())
+  dailyStats   DomainDailyStats[]
+  emailSends   EmailSend[]
+}
+
+model DomainDailyStats {
+  id              String        @id @default(cuid())
+  sendingDomainId String
+  sendingDomain   SendingDomain @relation(fields: [sendingDomainId], references: [id])
+  date            DateTime
+  sends           Int           @default(0)
+  bounces         Int           @default(0)
+  spam            Int           @default(0)
+  dailyLimit      Int
+
+  @@unique([sendingDomainId, date])
+}
+
+// ─── PROSPECTS ────────────────────────────────────────────────────────────
+
+enum ProspectPool {
+  STALE_SITE
+  NO_WEBSITE
+}
+
+enum ScrapeStatus {
+  PENDING
+  VISITED
+  FAILED
+}
+
+enum CallOutcome {
+  NO_ANSWER
+  NOT_INTERESTED
+  INTERESTED
+  BOOKED
+}
+
+// ─── CONTACTS ─────────────────────────────────────────────────────────────
+
+model Contact {
+  id                  String            @id @default(cuid())
+  email               String?           @unique
+  firstName           String?
+  lastName            String?
+  phone               String?           @unique
+  businessName        String
+  category            String
+  borough             String?
+  websiteUrl          String?
+  websiteLastModified DateTime?
+  websiteAgeScore     Int?
+  googleMapsUrl       String?
+  instagramUrl        String?
+  prospectPool        ProspectPool      @default(STALE_SITE)
+  scrapeStatus        ScrapeStatus      @default(PENDING)
+  scrapeLastRun       DateTime?
+  scrapeNotes         String?
+  callTranscript      String?
+  callScore           Int?
+  callObjections      String[]
+  callOutcome         CallOutcome?
+  status              String            @default("active")
+  globalDoNotContact  Boolean           @default(false)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  campaignContacts    CampaignContact[]
+  emailSends          EmailSend[]
+  calls               Call[]
+  inboundLeads        InboundLead[]
+}
+
+// ─── CAMPAIGNS ────────────────────────────────────────────────────────────
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+}
+
+model Campaign {
+  id                String            @id @default(cuid())
+  name              String
+  fromName          String            @default("Eddie Robb")
+  replyTo           String?
+  status            CampaignStatus    @default(DRAFT)
+  prospectPool      ProspectPool      @default(STALE_SITE)
+  targetCategory    String?
+  targetBorough     String?
+  sendDays          String            @default("1,2,3,4,5")
+  sendWindowStart   Int               @default(8)
+  sendWindowEnd     Int               @default(18)
+  totalSent         Int               @default(0)
+  totalOpened       Int               @default(0)
+  totalClicked      Int               @default(0)
+  totalReplied      Int               @default(0)
+  totalConverted    Int               @default(0)
+  totalBounced      Int               @default(0)
+  totalUnsubscribed Int               @default(0)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  emails            CampaignEmail[]
+  campaignContacts  CampaignContact[]
+}
+
+model CampaignEmail {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  bucket     String
+  stepOrder  Int
+  variant    String   @default("A")
+  subject    String
+  bodyHtml   String
+  bodyText   String?
+  delayDays  Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@unique([campaignId, bucket, stepOrder, variant])
+}
+
+model CampaignContact {
+  id                  String    @id @default(cuid())
+  campaignId          String
+  campaign            Campaign  @relation(fields: [campaignId], references: [id])
+  contactId           String
+  contact             Contact   @relation(fields: [contactId], references: [id])
+  variant             String    @default("A")
+  currentBucket       String    @default("pending")
+  currentStepInBucket Int       @default(0)
+  status              String    @default("active")
+  lastEmailSentAt     DateTime?
+  nextEmailDueAt      DateTime?
+  hasReplied          Boolean   @default(false)
+  repliedAt           DateTime?
+  replySentiment      String?
+  replyReasons        String[]
+  replyNotes          String?
+  hasConverted        Boolean   @default(false)
+  convertedAt         DateTime?
+  unsubscribedAt      DateTime?
+  bouncedAt           DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@unique([campaignId, contactId])
+}
+
+// ─── EMAIL TRACKING ───────────────────────────────────────────────────────
+
+model EmailSend {
+  id                String        @id @default(cuid())
+  campaignContactId String?
+  contactId         String?
+  contact           Contact?      @relation(fields: [contactId], references: [id])
+  domainId          String
+  domain            SendingDomain @relation(fields: [domainId], references: [id])
+  resendEmailId     String?
+  subject           String?
+  opened            Boolean       @default(false)
+  openedAt          DateTime?
+  clicked           Boolean       @default(false)
+  clickedAt         DateTime?
+  createdAt         DateTime      @default(now())
+  emailEvents       EmailEvent[]
+}
+
+model EmailEvent {
+  id          String    @id @default(cuid())
+  emailSendId String
+  emailSend   EmailSend @relation(fields: [emailSendId], references: [id])
+  eventType   String
+  bucket      String?
+  stepOrder   Int?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+}
+
+model GlobalUnsubscribe {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model GlobalBounce {
+  id               String   @id @default(cuid())
+  email            String   @unique
+  bounceType       String
+  bounceReason     String?
+  sourceCampaignId String?
+  createdAt        DateTime @default(now())
+}
+
+// ─── CALLS ────────────────────────────────────────────────────────────────
+
+model Call {
+  id              String       @id @default(cuid())
+  contactId       String
+  contact         Contact      @relation(fields: [contactId], references: [id])
+  twilioCallSid   String?      @unique
+  fromNumber      String
+  toNumber        String
+  duration        Int?
+  recordingUrl    String?
+  transcript      String?
+  aiScore         Int?
+  aiObjections    String[]
+  aiNextAction    String?
+  aiFollowUpDraft String?
+  outcome         CallOutcome?
+  notes           String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+// ─── LANDING PAGES ────────────────────────────────────────────────────────
+
+model LandingPage {
+  id              String        @id @default(cuid())
+  category        String        @unique
+  slug            String        @unique
+  heroHeadline    String
+  subheadline     String
+  painPoints      String[]
+  ctaText         String        @default("Text us to get started")
+  ctaPhone        String        @default("+1-000-000-0000")
+  isPublished     Boolean       @default(false)
+  conversionCount Int           @default(0)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  inboundLeads    InboundLead[]
+}
+
+model InboundLead {
+  id            String       @id @default(cuid())
+  landingPageId String?
+  landingPage   LandingPage? @relation(fields: [landingPageId], references: [id])
+  contactId     String?
+  contact       Contact?     @relation(fields: [contactId], references: [id])
+  name          String?
+  email         String?
+  phone         String?
+  businessName  String?
+  message       String?
+  source        String?
+  createdAt     DateTime     @default(now())
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+// ─── BRAIN ────────────────────────────────────────────────────────────────
+
+enum InsightType {
+  CATEGORY_PERFORMANCE
+  BOROUGH_PERFORMANCE
+  EMAIL_VARIANT
+  CALL_PATTERN
+  SCRAPER_DIRECTION
+  TIMING_PATTERN
+  PROSPECT_QUALITY
+  CONTENT_SUGGESTION
+  DOMAIN_HEALTH
+  PIPELINE_GAP
+}
+
+enum InsightStatus {
+  NEW
+  SEEN
+  ACTED
+  DISMISSED
+  OVERRIDDEN
+  EXPIRED
+}
+
+model BrainInsight {
+  id             String         @id @default(cuid())
+  type           InsightType
+  title          String
+  summary        String
+  detail         String
+  recommendation String
+  confidence     Int
+  dataPoints     Json
+  status         InsightStatus  @default(NEW)
+  userFeedback   String?
+  feedbackAt     DateTime?
+  wasActedOn     Boolean        @default(false)
+  actedOnAt      DateTime?
+  outcome        String?
+  createdAt      DateTime       @default(now())
+  expiresAt      DateTime?
+  feedbackLoops  FeedbackLoop[]
+}
+
+model BrainPattern {
+  id            String   @id @default(cuid())
+  patternKey    String   @unique
+  value         Float
+  sampleSize    Int
+  confidence    Int
+  trend         String
+  previousValue Float?
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+}
+
+model BrainCycle {
+  id                String   @id @default(cuid())
+  triggeredBy       String
+  insightsGenerated Int      @default(0)
+  patternsUpdated   Int      @default(0)
+  durationMs        Int?
+  summary           String?
+  createdAt         DateTime @default(now())
+}
+
+model FeedbackLoop {
+  id                String       @id @default(cuid())
+  insightId         String
+  insight           BrainInsight @relation(fields: [insightId], references: [id])
+  action            String
+  result            String?
+  learningExtracted String?
+  createdAt         DateTime     @default(now())
+}

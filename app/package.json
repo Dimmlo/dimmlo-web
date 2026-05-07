@@ -1,0 +1,44 @@
+{
+  "name": "dimmlo-gtm",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
+    "start": "next start",
+    "lint": "next lint",
+    "scrape": "ts-node --project tsconfig.scripts.json scripts/scrape.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:seed": "ts-node --project tsconfig.scripts.json prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "ts-node --project tsconfig.scripts.json prisma/seed.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.1",
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^16.6.1",
+    "lucide-react": "^0.460.0",
+    "next": "14.2.18",
+    "openai": "^4.73.0",
+    "playwright": "^1.49.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "resend": "^4.0.1",
+    "twilio": "^5.3.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^3.4.15",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
