@@ -1,10 +1,10 @@
 # Eddie - Getting Started with Dimmlo Web
 
-Hey Eddie! Here's everything you need to work on the Dimmlo marketing site.
+Hey Eddie! Here's everything you need to work on the Dimmlo main application (marketing site + admin/GTM engine).
 
 ## What You'll Be Working On
 
-You'll be editing files in the `marketing-site/` folder. That's the dimmlo.com website.
+You'll be editing files in the `app/` folder. That's the main application (marketing site + admin/GTM engine).
 
 Your changes go to a **staging site first** so Ari can review before they go live.
 
@@ -36,11 +36,11 @@ You're now ready to work!
    git checkout staging
    ```
 
-2. **Edit files in `marketing-site/` folder:**
-   - `index.html` - main page structure
+2. **Edit files in `app/` folder:**
+   - `index.html` - main page structure (or app entry files)
    - `css/styles.css` - styling
    - `js/main.js` - JavaScript
-   - Add images to `images/` folder
+   - Add images to `public/` or `images/` folder as appropriate
 
 3. **Save your work to Git:**
    ```bash
@@ -89,13 +89,13 @@ git checkout -- filename.html
 ## File Structure
 
 ```
-marketing-site/
-├── index.html          ← Main page
+app/
+├── index.html          ← Main page or Next.js app entry
 ├── css/
 │   └── styles.css     ← All styling
 ├── js/
 │   └── main.js        ← JavaScript
-└── images/            ← Put images here
+└── images/            ← Put images here (or use `public/` for Next.js)
 ```
 
 ## Brand Colors Already Set
@@ -120,6 +120,6 @@ Ask Ari or check out:
 
 **TL;DR:**
 1. `git checkout staging`
-2. Edit `marketing-site/` files
+2. Edit `app/` files
 3. `git add . && git commit -m "message" && git push origin staging`
 4. Tell Ari to review

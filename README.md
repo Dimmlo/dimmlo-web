@@ -1,26 +1,26 @@
 # Dimmlo Web
 
-Monorepo for Dimmlo's marketing site and client websites.
+Monorepo for Dimmlo's main application (marketing site + admin/GTM engine) and client websites.
 
 ## Structure
 
 ```
 dimmlo-web/
-├── marketing-site/      # Main dimmlo.com website
+├── app/                 # Main application (marketing site + admin/GTM engine)
 ├── client-sites/        # Client website template + configs
-└── scripts/            # Automation scripts (Node.js)
+└── scripts/             # Automation scripts (Node.js)
 ```
 
 ## Deployments
 
-- **Marketing site**: `dimmlo.com` (Vercel)
+- **Main application (marketing site + admin/GTM engine)**: `dimmlo.com` (Vercel)
 - **Client sites**: `{client}.dimmlo.com` (Vercel wildcard subdomain)
 
 ## Quick Start
 
-### Marketing Site
+### Main application (marketing site + admin/GTM engine)
 ```bash
-cd marketing-site
+cd app
 # Open index.html or deploy to Vercel
 ```
 

@@ -4,7 +4,7 @@
 
 ```
 dimmlo-web/
-├── marketing-site/          ← dimmlo.com (Eddie's code goes here)
+├── app/                     ← dimmlo.com main application (marketing site + admin/GTM engine)
 ├── client-sites/            ← cafecolmado.dimmlo.com, dkelectrical.dimmlo.com, etc.
 └── scripts/                 ← Your Node.js automation scripts
 ```
@@ -28,10 +28,10 @@ git push -u origin main
 
 **Two separate projects:**
 
-**Project 1: Marketing Site**
+**Project 1: Main application (marketing site + admin/GTM engine)**
 - Import: dimmlo-web repo
 - Name: `dimmlo-marketing`
-- Root Directory: `marketing-site`
+- Root Directory: `app`
 - Build Command: (empty)
 - Output: `.`
 - Domain: `dimmlo.com`
@@ -47,11 +47,11 @@ git push -u origin main
 ### 3. Add Eddie's Code
 
 ```bash
-# Copy Eddie's files into marketing-site/
-cp -r /path/to/eddie/files/* marketing-site/
+# Copy Eddie's files into `app/`
+cp -r /path/to/eddie/files/* app/
 
-git add marketing-site/
-git commit -m "Add Eddie's marketing site code"
+git add app/
+git commit -m "Add Eddie's app code"
 git push
 # Vercel auto-deploys
 ```

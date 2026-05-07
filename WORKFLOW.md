@@ -20,7 +20,8 @@ git checkout staging
 git checkout staging
 
 # Work on marketing site
-cd marketing-site
+# Work on main application
+cd app
 # Edit your files...
 
 # When done
@@ -78,5 +79,5 @@ This undoes the last merge and rolls back to the previous version.
 **Ari's rule:** Only Ari merges `staging` → `main`
 
 **Production URLs (live):**
-- Marketing: https://dimmlo.com
+- Main application (marketing site + admin/GTM engine): https://dimmlo.com
 - Client sites: https://cafecolmado.dimmlo.com, https://dkelectrical.dimmlo.com, etc.
